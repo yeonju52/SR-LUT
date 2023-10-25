@@ -13,81 +13,31 @@
 - tensorboardx
 
 
-## 1. Training deep SR network
-1. Move into a directory.
-```
-cd ./1_Train_deep_model
-```
+## Original Code
+   ### 1. Training deep SR network
+   ### 2. Transferring to LUT
+      The resulting LUT: `./Model_S_x4_4bit_int8.npy`.
+      - Title's rule:
+      
+   > *2. Transferring To LUT*의 결과, LUT가 생성된다. 이때, LUT는 2차원 정수 배열이고, `Model_\*_x\*_\*bit_int*.npy`의 형식으로 저장한다. 
+   ### 3. Testing using LUT   
+   > *3. Testing using LUT*를 통해, PSNR을 구한다.
 
-2. Prepare DIV2K training images into `./train`.
-- [HR images](http://data.vision.ee.ethz.ch/cvl/DIV2K/DIV2K_train_HR.zip) should be placed as `./train/DIV2K_train_HR/*.png`.
-- [LR images](http://data.vision.ee.ethz.ch/cvl/DIV2K/DIV2K_train_LR_bicubic_X4.zip) should be placed as `./train/DIV2K_train_LR_bicubic/X4/*.png`.
-
-
-3. Set5 HR/LR validation png images are already included in `./val`, or you can use other images.
-
-4. You may modify user parameters in L22 in `./Train_Model_S.py`.
-
-5. Run.
-```
-python Train_Model_S.py
-```
-
-6. Checkpoints will be saved in `./checkpoint/S`.
-- Training log will be generated in `./log/S`.
+## (Experiment1) bit compression
 
 
-
-## 2. Transferring to LUT
-1. Move into a directory.
-```
-cd ./2_Transfer_to_LUT
-```
-
-2. Modify user parameters in L9 in `./Transfer_Model_S.py`.
-- Specify a saved checkpoint in the step 1, or you can use attached `./Model_S.pth`.
-
-3. Run.
-```
-python Transfer_Model_S.py
-```
-
-4. The resulting LUT will be saved like `./Model_S_x4_4bit_int8.npy`.
-
-
-## 3. Testing using LUT
-1. Move into a directory.
-```
-cd ./3_Test_using_LUT
-```
-
-2. Modify user parameters in L17 in `./Test_Model_S.py`.
-- Specify the generated LUT in the step 2, or use attached LUTs (npy files).
-
-3. Set5 HR/LR test images are already included in `./test`, or you can use other images.
-
-4. Run.
-```
-python Test_Model_S.py      # Ours-S
-python Test_Model_F.py      # Ours-F
-python Test_Model_V.py      # Ours-V
-```
-
-5. Resulting images will be saved in `./output_S_x4_4bit/*.png`.
-
-6. We can reproduce the results of Table 6 in the paper, by modifying the variable `SAMPLING_INTERVAL` in L19 in Test_Model_S.py to range 3-8.
+numpy의 타입이 np.int8이므로 정수의 capactiy는 8bit이다. 8bit를 bit compression을 할 때의 PSNR을 관찰한다.
+- 8bit와 [1~8]bit로 줄였을 때의 PSNR을 비교한다.
+- bit compression의 방법은 Trunc(Floor), Ceil, Round, Random 총 4가지 방식으로 실험하고, 결과를 비교한다.
+  - Random의 경우, nearest even rounding 방법으로 구현했다.
+ 
+  ### 실험 결과
+  
+  <img width="891" alt="image" src="https://github.com/yeonju52/SR-LUT/assets/77441026/8b8fe5ec-95bd-4bb9-8c74-4e02826261fa">
 
 
 
-## 4. Testing on a smartphone
-1. Download [SR-LUT.apk](https://yonsei-my.sharepoint.com/:u:/g/personal/yh_jo_o365_yonsei_ac_kr/EWouYLlG7xlMu252RkLradAByJTJpHwhDYAd285bJSFzsA?e=BzZQLQ) and install it.
-
-2. You can test Set14 images or other images.
-
-![SR-LUT Android app demo](Demo.jpg)
-
-
-
+Forked by [original code](https://github.com/yhjo09/SR-LUT)
 
 ## BibTeX
 ```

@@ -6,6 +6,7 @@ from os.path import isfile, join, isdir
 from tqdm import tqdm
 import glob
 from tqdm import tqdm
+import matplotlib.pyplot as plt
 
 
 import sys
@@ -19,9 +20,9 @@ UPSCALE = 4     # upscaling factor
 SAMPLING_INTERVAL = 4       # N bit uniform sampling
 TEST_DIR = './test/'      # Test images
 
-def computePSNR(interp_type):
+def calcPSNR(interp_type):
     psnrs = []
-    for missing_bits in range(5):
+    for missing_bits in range(9):
         LUT_PATH = "hbd/Model_S_{}_int{}.npy".format(interp_type, 8-missing_bits)    # Trained SR net param
         print(">>>>>>>>>>>>>>>>>>>>>.", LUT_PATH.split('.')[0])
 
@@ -213,5 +214,35 @@ def computePSNR(interp_type):
     return psnrs
 
 if __name__=='__main__':
-    psnrs = computePSNR("random")
+    psnrs = dict()
+    psnrs["random"] = calcPSNR("random")
+    psnrs["ceil"] = calcPSNR("ceil")
+    psnrs["floor"] = calcPSNR("floor")
+    psnrs["round"] = calcPSNR("round")
     print(psnrs)
+    plt.plot(range(9), psnrs["random"], 'bo-', label='random')
+    plt.plot(range(9), psnrs["round"], 'rx-', label='round')
+    plt.plot(range(9), psnrs["floor"], 'go-', label='floor')
+    plt.plot(range(9), psnrs["ceil"], 'yx-', label='ceil')
+    for i in range(9):
+        h1 = psnrs["random"][i]
+        plt.text(i, h1+0.5, '%.4f' %h1, ha='center', va='bottom', size=8)
+        h2 = psnrs["round"][i]
+        plt.text(i, h2-1.5, '%.4f' %h2, ha='center', va='bottom', size=8)
+        h3 = psnrs["floor"][i]
+        plt.text(i, h3-2.5, '%.4f' %h3, ha='center', va='bottom', size=8)
+        h4 = psnrs["ceil"][i]
+        plt.text(i, h4-4.0, '%.4f' %h4, ha='center', va='bottom', size=8)
+    
+    lb = [8-x for x in range(9)]
+    plt.xlabel('integer\'s capacity (bit)')
+    plt.ylabel('PSNR')
+    plt.xticks(range(9), lb)
+    plt.ylim([0, 35])    
+    plt.grid(True, axis='y', alpha=0.5, linestyle='--')
+    plt.legend()
+
+    plt.savefig('PSNR.png')
+    plt.show()
+
+

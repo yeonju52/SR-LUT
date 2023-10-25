@@ -1,0 +1,8 @@
+*/__pycache__/
+3_Test_using_LUT/output/
+3_Test_using_LUT/exp1
+3_Test_using_LUT/hbd
+3_Test_using_LUT/lbd
+3_Test_using_LUT/origin
+3_Test_using_LUT/*.txt
+*/*temp*.py

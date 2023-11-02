@@ -1,27 +1,5 @@
 ## Practical Single-Image Super-Resolution Using Look-Up Table
 
-[[Paper]](https://openaccess.thecvf.com/content/CVPR2021/html/Jo_Practical_Single-Image_Super-Resolution_Using_Look-Up_Table_CVPR_2021_paper.html) 
-
-
-## Dependency
-- Python 3.6
-- PyTorch 
-- glob
-- numpy
-- pillow
-- tqdm
-- tensorboardx
-
-
-## Original Code
-   ### 1. Training deep SR network
-   ### 2. Transferring to LUT
-      The resulting LUT: `./Model_S_x4_4bit_int8.npy`.
-      - Title's rule:
-      
-   > *2. Transferring To LUT*의 결과, LUT가 생성된다. 이때, LUT는 2차원 정수 배열이고, `Model_\*_x\*_\*bit_int*.npy`의 형식으로 저장한다. 
-   ### 3. Testing using LUT   
-   > *3. Testing using LUT*를 통해, PSNR을 구한다.
 
 ## (Experiment1) bit compression
 
@@ -37,7 +15,30 @@ numpy의 타입이 np.int8이므로 정수의 capactiy는 8bit이다. 8bit를 bi
 
 
 
+## Original Code
+   ### 1. Training deep SR network
+   ### 2. Transferring to LUT
+      The resulting LUT: `./Model_S_x4_4bit_int8.npy`.
+      - Title's rule:
+      
+   > *2. Transferring To LUT*의 결과, LUT가 생성된다. 이때, LUT는 2차원 정수 배열이고, `Model_\*_x\*_\*bit_int*.npy`의 형식으로 저장한다. 
+   ### 3. Testing using LUT   
+   > *3. Testing using LUT*를 통해, PSNR을 구한다.
+
+
 Forked by [original code](https://github.com/yhjo09/SR-LUT)
+
+[[Paper]](https://openaccess.thecvf.com/content/CVPR2021/html/Jo_Practical_Single-Image_Super-Resolution_Using_Look-Up_Table_CVPR_2021_paper.html) 
+
+
+## Dependency
+- Python 3.6
+- PyTorch 
+- glob
+- numpy
+- pillow
+- tqdm
+- tensorboardx
 
 ## BibTeX
 ```

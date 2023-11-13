@@ -1,7 +1,7 @@
 ## Practical Single-Image Super-Resolution Using Look-Up Table
 
 
-## (Experiment1) bit compression
+## bit compression
 
 
 numpy의 타입이 np.int8이므로 정수의 capactiy는 8bit이다. 8bit를 bit compression을 할 때의 PSNR을 관찰한다.

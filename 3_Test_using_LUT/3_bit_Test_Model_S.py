@@ -1,16 +1,12 @@
 
 from PIL import Image
 import numpy as np
-from os import listdir, mkdir
-from os.path import isfile, join, isdir
+from os import mkdir
+from os.path import isdir
 from tqdm import tqdm
 import glob
-from tqdm import tqdm
 import matplotlib.pyplot as plt
 
-
-import sys
-sys.path.insert(1, '../1_Train_deep_model')
 from utils import PSNR, _rgb2ycbcr
 
 
@@ -20,10 +16,11 @@ UPSCALE = 4     # upscaling factor
 SAMPLING_INTERVAL = 4       # N bit uniform sampling
 TEST_DIR = './test/'      # Test images
 
+max_bit = 8
 def calcPSNR(interp_type):
     psnrs = []
-    for missing_bits in range(9):
-        LUT_PATH = "hbd/Model_S_{}_int{}.npy".format(interp_type, 8-missing_bits)    # Trained SR net param
+    for missing_bits in range(max_bit):
+        LUT_PATH = "hbd/Model_S_{}_int{}_LUT.npy".format(interp_type, 8-missing_bits)    # Trained SR net param
         print(">>>>>>>>>>>>>>>>>>>>>.", LUT_PATH.split('.')[0])
 
         # Load LUT
@@ -204,7 +201,6 @@ def calcPSNR(interp_type):
 
             # Save to file
             Image.fromarray(img_out).save('output/output_S_{}_int{}/{}_LUT_interp_int{}.png'.format(interp_type, 8-missing_bits, fn.split('/')[-1][:-4], 8-missing_bits))
-            # _{}_int{}'.format(interp_type, 8-missing_bits)
             CROP_S = 4
             psnr = PSNR(_rgb2ycbcr(img_gt)[:,:,0], _rgb2ycbcr(img_out)[:,:,0], CROP_S)
             avg_psnr.append(psnr)
@@ -220,11 +216,11 @@ if __name__=='__main__':
     psnrs["floor"] = calcPSNR("floor")
     psnrs["round"] = calcPSNR("round")
     print(psnrs)
-    plt.plot(range(9), psnrs["random"], 'bo-', label='random')
-    plt.plot(range(9), psnrs["round"], 'rx-', label='round')
-    plt.plot(range(9), psnrs["floor"], 'go-', label='floor')
-    plt.plot(range(9), psnrs["ceil"], 'yx-', label='ceil')
-    for i in range(9):
+    plt.plot(range(max_bit), psnrs["random"], 'bo-', label='random')
+    plt.plot(range(max_bit), psnrs["round"], 'rx-', label='round')
+    plt.plot(range(max_bit), psnrs["floor"], 'go-', label='floor')
+    plt.plot(range(max_bit), psnrs["ceil"], 'yx-', label='ceil')
+    for i in range(max_bit):
         h1 = psnrs["random"][i]
         plt.text(i, h1+0.5, '%.4f' %h1, ha='center', va='bottom', size=8)
         h2 = psnrs["round"][i]
@@ -234,10 +230,10 @@ if __name__=='__main__':
         h4 = psnrs["ceil"][i]
         plt.text(i, h4-4.0, '%.4f' %h4, ha='center', va='bottom', size=8)
     
-    lb = [8-x for x in range(9)]
+    lb = [8-x for x in range(max_bit)]
     plt.xlabel('integer\'s capacity (bit)')
     plt.ylabel('PSNR')
-    plt.xticks(range(9), lb)
+    plt.xticks(range(max_bit), lb)
     plt.ylim([0, 35])    
     plt.grid(True, axis='y', alpha=0.5, linestyle='--')
     plt.legend()

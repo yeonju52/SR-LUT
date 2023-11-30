@@ -5,6 +5,7 @@
 3_Test_using_LUT/low_bit
 3_Test_using_LUT/origin
 3_Test_using_LUT/backup
+3_Test_using_LUT/output
 3_Test_using_LUT/output_backup
 3_Test_using_LUT/SAMPLING
 3_Test_using_LUT/*.txt

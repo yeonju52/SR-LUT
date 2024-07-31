@@ -1,4 +1,4 @@
-![231218_기술세미나 001](https://github.com/user-attachments/assets/0f40e89e-6f71-43b7-b023-a7432ccc766b)## Practical Single-Image Super-Resolution Using Look-Up Table
+## Practical Single-Image Super-Resolution Using Look-Up Table
 
 
 ## bit compression
@@ -17,14 +17,16 @@ numpy의 타입이 np.int8이므로 정수의 capactiy는 8bit이다. 8bit를 bi
 ## Low Bit-depth에 관한 실험
 ![231218_기술세미나 001](https://github.com/user-attachments/assets/3e053902-df8d-4d65-8bb7-3cd69969f6bb)
 
-### 보간에 관한 실험 1
-![231218_기술세미나 002](https://github.com/user-attachments/assets/4350a96a-df2a-4af1-95ee-e9b8261885b8)
-
-### 보간에 관한 실험 2
-![231218_기술세미나 003](https://github.com/user-attachments/assets/74b5e336-d754-4ad2-8067-47f0c0655240)
+## 보간에 관한 실험
 
-### 보간에 관한 실험 3
-![231218_기술세미나 004](https://github.com/user-attachments/assets/78b89ead-0693-4d59-bb7e-8972c8a7895f)
+- **실험 1**
+  ![231218_기술세미나 002](https://github.com/user-attachments/assets/4350a96a-df2a-4af1-95ee-e9b8261885b8)
+
+- **실험 2**
+  ![231218_기술세미나 003](https://github.com/user-attachments/assets/74b5e336-d754-4ad2-8067-47f0c0655240)
+
+- **실험 3**
+  ![231218_기술세미나 004](https://github.com/user-attachments/assets/78b89ead-0693-4d59-bb7e-8972c8a7895f)
 
 
 ## Original Code
